@@ -1,29 +1,27 @@
 <?php
+// File: local/questionnaire_notify/classes/observer.php
 namespace local_questionnaire_notify;
 
-defined('MOODLE_INTERNAL') || die();
-
-use mod_questionnaire\event\response_submitted;
-use core_user;
+use mod_questionnaire\event\attempt_submitted;
 
 class observer {
-    public static function on_response_submitted(response_submitted $event): void {
+
+    public static function on_attempt_submitted(attempt_submitted $event): void {
         global $DB;
 
-        debugging('Observer triggered: on_response_submitted()', DEBUG_DEVELOPER);
-
-        $userid = $event->userid;
-        $cmid = $event->contextinstanceid;
-
-        error_log("[questionnaire_notify] Event received. User ID: $userid, CM ID: $cmid");
+        error_log('[questionnaire_notify] attempt_submitted event received.');
 
         try {
+            $userid = $event->userid;
+            $cmid = $event->contextinstanceid;
+
             $cm = get_coursemodule_from_id('questionnaire', $cmid, 0, false, MUST_EXIST);
             $course = $DB->get_record('course', ['id' => $cm->course], '*', MUST_EXIST);
             $questionnaire = $DB->get_record('questionnaire', ['id' => $cm->instance], '*', MUST_EXIST);
 
             error_log("[questionnaire_notify] Questionnaire ID: {$questionnaire->id}, Course ID: {$course->id}");
 
+            // Retrieve custom field data
             $handler = \core_customfield\handler::get_handler('mod_questionnaire', 'mod_questionnaire');
             $data = $handler->get_instance_data($questionnaire->id);
 
@@ -35,7 +33,6 @@ class observer {
 
                 if ($shortname === 'emailonresponse' && $value === '1') {
                     $sendemail = true;
-                    error_log("[questionnaire_notify] Email sending enabled for this questionnaire.");
                     break;
                 }
             }
@@ -53,7 +50,7 @@ class observer {
                 'coursename' => $course->fullname
             ]);
 
-            if (email_to_user($user, core_user::get_support_user(), $subject, $body)) {
+            if (email_to_user($user, \core_user::get_support_user(), $subject, $body)) {
                 error_log("[questionnaire_notify] Email sent successfully to {$user->email}");
             } else {
                 error_log("[questionnaire_notify] Failed to send email to {$user->email}");
@@ -64,5 +61,4 @@ class observer {
             debugging('Exception in observer: ' . $e->getMessage(), DEBUG_DEVELOPER);
         }
     }
-
 }

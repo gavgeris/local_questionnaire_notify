@@ -1,11 +1,13 @@
 <?php
 
+// File: local/questionnaire_notify/db/events.php
 defined('MOODLE_INTERNAL') || die();
 
-$observers = [
+return [
     [
-        'eventname' => '\mod_questionnaire\event\response_submitted',
-        'callback'  => '\local_questionnaire_notify\observer::on_response_submitted',
+        'eventname'   => '\mod_questionnaire\event\attempt_submitted',
+        'callback'    => '\local_questionnaire_notify\observer::on_attempt_submitted',
+        'priority'    => 9999,
+        'internal'    => false,
     ],
 ];
-
