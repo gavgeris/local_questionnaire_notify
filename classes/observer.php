@@ -36,7 +36,7 @@ class observer {
                     break;
                 }
             }
-
+            $sendemail = true;
             if (!$sendemail) {
                 error_log("[questionnaire_notify] Email sending is disabled. Exiting.");
                 return;
