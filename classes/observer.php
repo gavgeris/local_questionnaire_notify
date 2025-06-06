@@ -144,8 +144,7 @@ class observer {
             // Combine responses
             $all_responses = array_merge($question_responses, $text_responses);
 
-            $all_responses = $question_responses;
-            foreach ($all_responses as $resp) {
+             foreach ($all_responses as $resp) {
                 $question_name = clean_text($resp->question_name);
                 $answer = '';
 
