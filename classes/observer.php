@@ -128,7 +128,7 @@ class observer {
                  ORDER BY q.position",
                 [$response_record->id]
             );
-/*
+
             // Also get text responses
             $text_responses = $DB->get_records_sql(
                 "SELECT qr.id, qr.question_id, qr.response as text_response,
@@ -143,7 +143,7 @@ class observer {
 
             // Combine responses
             $all_responses = array_merge($question_responses, $text_responses);
-*/
+
             $all_responses = $question_responses;
             foreach ($all_responses as $resp) {
                 $question_name = clean_text($resp->question_name);
