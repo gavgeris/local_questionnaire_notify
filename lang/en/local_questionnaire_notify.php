@@ -10,7 +10,7 @@ Thank you for submitting the questionnaire "{$a->questionnaire_name}" for the co
 SUBMISSION DETAILS:
 Submitted on: {$a->submission_date}
 
-YOUR RESPONSES 2:
+YOUR RESPONSES 3:
 {$a->responses}
 
 We have received your submission and will contact you shortly.
