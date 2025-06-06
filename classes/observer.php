@@ -148,9 +148,7 @@ class observer {
                 $question_name = clean_text($resp->question_name);
                 $answer = '';
 
-                if (!empty($resp->choice_content)) {
-                    $answer = clean_text($resp->choice_content);
-                } else if (!empty($resp->text_response)) {
+                if (!empty($resp->text_response)) {
                     $answer = clean_text($resp->text_response);
                 }
 
