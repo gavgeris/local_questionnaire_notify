@@ -118,7 +118,7 @@ class observer {
 
             // Get all question responses for this submission
             $question_responses = $DB->get_records_sql(
-                "SELECT qr.id, qr.question_id, qr.choice_id, qr.response as text_response,
+                "SELECT qr.id, qr.question_id, qr.choice_id, qc.response as text_response,
                         q.name as question_name, q.type_id as question_type,
                         qc.content as choice_content
                  FROM {questionnaire_resp_single} qr
@@ -133,8 +133,9 @@ class observer {
             $text_responses = $DB->get_records_sql(
                 "SELECT qr.id, qr.question_id, qr.response as text_response,
                         q.name as question_name, q.type_id as question_type
-                 FROM {questionnaire_resp_multiple} qr
-                 JOIN {questionnaire_question} q ON q.id = qr.question_id
+                    FROM {questionnaire_response_text} qr
+         JOIN {questionnaire_question} q ON q.id = qr.question_id
+         LEFT JOIN {questionnaire_response_text} qrt ON qrt.id = qr.response_id
                  WHERE qr.response_id = ?
                  ORDER BY q.position",
                 [$response_record->id]
