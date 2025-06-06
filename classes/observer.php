@@ -36,8 +36,8 @@ class observer {
             error_log("[questionnaire_notify] Questionnaire: {$questionnaire->name}, Course: {$course->fullname}");
 
             // Check if email notifications are enabled
-//            $sendemail = self::should_send_email($questionnaire->id);
-            $sendemail = true;
+            $sendemail = self::should_send_email($questionnaire->id);
+//            $sendemail = true;
 
             if (!$sendemail) {
                 error_log("[questionnaire_notify] Email sending is disabled for questionnaire ID: {$questionnaire->id}");
