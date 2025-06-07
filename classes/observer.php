@@ -30,10 +30,10 @@ class observer {
             $questionnaire = $DB->get_record('questionnaire', ['id' => $cm->instance], '*', MUST_EXIST);
 
             // Check if email notifications are enabled
-            $sendemail = self::should_send_email($questionnaire->id);
+            $sendemail = self::should_send_email($cmid);
 
             if (!$sendemail) {
-                error_log("[questionnaire_notify] Email sending is disabled for questionnaire ID: {$questionnaire->id}");
+                error_log("[questionnaire_notify] Email sending is disabled for questionnaire ID: {$questionnaire->id} and instanceid: {$cmid}");
                 return;
             }
 
@@ -196,28 +196,33 @@ class observer {
 
         return null;
     }
-
     /**
      * Check if email should be sent for this questionnaire
+     * @param int $cmid Course module ID
+     * @return bool
      */
-    private static function should_send_email($questionnaireid): bool {
+    private static function should_send_email($cmid): bool {
+        global $DB;
+
         try {
-            $handler = \core_customfield\handler::get_handler('mod_questionnaire', 'mod_questionnaire');
-            $data = $handler->get_instance_data($questionnaireid);
+            // Query to check if email notifications are enabled for this course module
+            $sql = "SELECT cfd.value 
+                FROM {customfield_data} cfd
+                INNER JOIN {customfield_field} cff ON cff.id = cfd.fieldid
+                WHERE cff.shortname = 'emailonresponse' 
+                AND cfd.instanceid = ?";
 
-            foreach ($data as $fielddata) {
-                $shortname = $fielddata->get_field()->get('shortname');
-                $value = $fielddata->get_value();
+            $result = $DB->get_field_sql($sql, [$cmid]);
 
-                if ($shortname === 'emailonresponse' && $value === '1') {
-                    return true;
-                }
-            }
+            error_log("[questionnaire_notify] Custom field value for CM ID $cmid: " . ($result ?? 'NULL'));
+
+            // Return true if value is '1', false otherwise
+            return ($result === '1' || $result === 1);
+
         } catch (\Exception $e) {
             error_log('[questionnaire_notify] Custom field check failed: ' . $e->getMessage());
+            // Default to false if there's an error
+            return false;
         }
-
-        // Default to true for testing
-        return true;
     }
 }
