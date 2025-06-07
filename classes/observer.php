@@ -9,7 +9,7 @@ class observer {
     public static function on_attempt_submitted(attempt_submitted $event): void {
         global $DB;
 
-        error_log('[questionnaire_notify] Event triggered - attempt_submitted');
+//        error_log('[questionnaire_notify] Event triggered - attempt_submitted');
 
         try {
             $userid = $event->userid;
@@ -22,7 +22,7 @@ class observer {
             }
 
             $cmid = $context->instanceid;
-            error_log("[questionnaire_notify] CM ID: $cmid, User ID: $userid");
+//            error_log("[questionnaire_notify] CM ID: $cmid, User ID: $userid");
 
             // Get course module and validate it's a questionnaire
             $cm = get_coursemodule_from_id('questionnaire', $cmid, 0, false, MUST_EXIST);
@@ -214,7 +214,7 @@ class observer {
 
             $result = $DB->get_field_sql($sql, [$cmid]);
 
-            error_log("[questionnaire_notify] Custom field value for CM ID $cmid: " . ($result ?? 'NULL'));
+//            error_log("[questionnaire_notify] Custom field value for CM ID $cmid: " . ($result ?? 'NULL'));
 
             // Return true if value is '1', false otherwise
             return ($result === '1' || $result === 1);
