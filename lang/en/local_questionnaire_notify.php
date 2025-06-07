@@ -2,18 +2,19 @@
 // File: lang/en/local_questionnaire_notify.php
 
 $string['pluginname'] = 'Questionnaire Submission Notifier';
-$string['emailsubject'] = 'Confirmation of your questionnaire submission in course: {$a}';
-$string['emailbody'] = 'Dear {$a->firstname} {$a->lastname},
+$string['emailsubject'] = 'Επιβεβαίωση καταχώρησης δήλωσης συμμετοχής στα σεμινάρια etwinning 2025-26';
+$string['emailbody'] = 'Αγαπητή/έ {$a->firstname} {$a->lastname},
 
-Thank you for submitting the questionnaire "{$a->questionnaire_name}" for the course: "{$a->coursename}".
+Σ\' ευχαριστούμε για την δήλωση συμμετοχής σου στα σεμινάρια etwinning για την περίοδο 2025-26".
 
-SUBMISSION DETAILS:
-Submitted on: {$a->submission_date}
+Λεπτομέρειες δήλωσης συμμετοχής:
+Φόρμα συμμετοχής: {$a->questionnaire_name}
+Υποβλήθηκε στις: {$a->submission_date}
 
-YOUR RESPONSES 3:
+Στοιχεία Δήλωσης:
 {$a->responses}
 
-We have received your submission and will contact you shortly.
 
-Best regards,
-Course Administration Team';
+Σε περίπτωση που καταχωρήσετε περισσότερες από μία (1) φορές, θα ληφθεί υπόψη η τελευταία σας καταχώρηση.
+
+Η ομάδα διαχείρισης των σεμινάρια etwinning';

@@ -53,10 +53,10 @@ class observer {
                 'coursename' => $course->fullname,
                 'questionnaire_name' => $questionnaire->name,
                 'responses' => $responses['formatted'],
-                'submission_date' => date('Y-m-d H:i:s')
+                'submission_date' => date('d/m/Y H:i:s')
             ];
 
-            $subject = get_string('emailsubject', 'local_questionnaire_notify', $course->fullname);
+            $subject = get_string('emailsubject', 'local_questionnaire_notify');
             $body = get_string('emailbody', 'local_questionnaire_notify', $emaildata);
 
             // Send email to user (registered email)
